@@ -27,10 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navbar.classList.toggle('scrolled', scrollY > 40);
     backToTop.classList.toggle('visible', scrollY > 500);
 
-    if (!navLinksEl.classList.contains('mobile-active')) {
-      const scrollingDown = scrollY > lastScrollY;
-      navbar.classList.toggle('nav-hidden', scrollingDown && scrollY > 220);
-    }
     lastScrollY = scrollY;
 
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
