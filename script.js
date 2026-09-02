@@ -54,43 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* ---------------- Custom cursor ---------------- */
-  if (finePointer && !prefersReducedMotion) {
-    document.body.classList.add('custom-cursor-active');
-
-    const cursorDot = document.getElementById('cursorDot');
-    const cursorRing = document.getElementById('cursorRing');
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.left = mouseX + 'px';
-      cursorDot.style.top = mouseY + 'px';
-    }, { passive: true });
-
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      cursorRing.style.left = ringX + 'px';
-      cursorRing.style.top = ringY + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    requestAnimationFrame(animateRing);
-
-    const hoverTargets = 'a, button, .service-card, .feature-card, .project-card, .inventory-card, input, select, textarea';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(hoverTargets)) cursorRing.classList.add('cursor-hover');
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(hoverTargets)) cursorRing.classList.remove('cursor-hover');
-    });
-  }
-
   /* ---------------- Magnetic buttons ---------------- */
   if (finePointer && !prefersReducedMotion) {
     document.querySelectorAll('.magnetic').forEach((el) => {

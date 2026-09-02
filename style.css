@@ -302,58 +302,6 @@ body.loaded {
   transform: translateY(-100%);
 }
 
-/* ---- Custom cursor ---- */
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  border-radius: 50%;
-  z-index: 10001;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.3s ease, width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s ease;
-}
-
-.cursor-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--gold-light);
-  box-shadow: 0 0 10px 2px var(--gold-glow);
-}
-
-.cursor-ring {
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--border-light);
-}
-
-.custom-cursor-active .cursor-dot,
-.custom-cursor-active .cursor-ring {
-  opacity: 1;
-}
-
-.custom-cursor-active {
-  cursor: none;
-}
-
-.custom-cursor-active input,
-.custom-cursor-active select,
-.custom-cursor-active textarea {
-  cursor: auto;
-}
-
-.cursor-ring.cursor-hover {
-  width: 56px;
-  height: 56px;
-  border-color: var(--emerald-light);
-}
-
-@media (max-width: 992px), (hover: none), (pointer: coarse) {
-  .cursor-dot, .cursor-ring { display: none; }
-}
-
 /* ---- Magnetic buttons ---- */
 .magnetic {
   transition: transform 0.4s var(--ease);
@@ -1949,6 +1897,12 @@ textarea:focus-visible {
 .footer-bottom p {
   color: var(--gray-dim);
   font-size: 0.85rem;
+}
+
+.footer-credit {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  opacity: 0.8;
 }
 
 /* ---------- Back to top ---------- */
