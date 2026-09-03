@@ -125,24 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeMobileMenu();
   });
 
-  /* ---------------- Active nav link on scroll ---------------- */
-  const sections = document.querySelectorAll('main section[id]');
-  const navLinkMap = {};
+  /* ---------------- Active nav link (current page) ---------------- */
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link').forEach(link => {
-    navLinkMap[link.dataset.section] = link;
+    const linkPage = link.getAttribute('href').split('/').pop();
+    link.classList.toggle('active', linkPage === currentPage);
   });
-
-  const navObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        Object.values(navLinkMap).forEach(l => l.classList.remove('active'));
-        const activeLink = navLinkMap[entry.target.id];
-        if (activeLink) activeLink.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-
-  sections.forEach(section => navObserver.observe(section));
 
   /* ---------------- Scroll reveal ---------------- */
   const revealEls = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
@@ -289,76 +277,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const projectsGrid = document.getElementById('projectsGrid');
 
-  function renderProjects() {
-    const html = projects
-      .filter(p => p.id !== 'dsk-toyota')
-      .map((p, index) => `
-        <article class="project-card reveal-up delay-${(index % 3) + 1}" data-modal-trigger="${p.id}">
-          <img src="${p.image}" alt="${p.title} — event production by Jubilant Events & Productions" loading="lazy">
-          <div class="project-overlay">
-            <span class="project-category">${p.category}</span>
-            <h3>${p.title}</h3>
-            <span class="project-view"><i class="fa-solid fa-arrows-up-down-left-right"></i> View Project</span>
+  if (projectsGrid) {
+    function renderProjects() {
+      const html = projects
+        .filter(p => p.id !== 'dsk-toyota')
+        .map((p, index) => `
+          <article class="project-card reveal-up delay-${(index % 3) + 1}" data-modal-trigger="${p.id}">
+            <img src="${p.image}" alt="${p.title} — event production by Jubilant Events & Productions" loading="lazy">
+            <div class="project-overlay">
+              <span class="project-category">${p.category}</span>
+              <h3>${p.title}</h3>
+              <span class="project-view"><i class="fa-solid fa-arrows-up-down-left-right"></i> View Project</span>
+            </div>
+          </article>
+        `).join('');
+
+      projectsGrid.innerHTML = html;
+
+      projectsGrid.querySelectorAll('[data-modal-trigger]').forEach(card => {
+        card.addEventListener('click', () => openProjectModal(card.dataset.modalTrigger));
+      });
+
+      Array.from(projectsGrid.children).forEach((child, i) => {
+        child.style.transitionDelay = `${(i % 8) * 0.07}s`;
+      });
+
+      projectsGrid.querySelectorAll('.reveal-up').forEach(el => revealObserver.observe(el));
+    }
+
+    renderProjects();
+
+    /* ---------------- Project modal ---------------- */
+    const projectModal = document.getElementById('projectModal');
+    const modalContent = document.getElementById('modalContent');
+    const modalClose = document.getElementById('modalClose');
+
+    function openProjectModal(id) {
+      const project = projects.find(p => p.id === id);
+      if (!project) return;
+
+      modalContent.innerHTML = `
+        <img src="${project.image}" alt="${project.title} — event production by Jubilant Events & Productions">
+        <div class="modal-body">
+          <span class="project-category">${project.category}</span>
+          <h3 id="modalTitle">${project.title}</h3>
+          <p>${project.description}</p>
+          <div class="modal-tags">
+            ${project.tags.map(tag => `<span>${tag}</span>`).join('')}
           </div>
-        </article>
-      `).join('');
-
-    projectsGrid.innerHTML = html;
-
-    projectsGrid.querySelectorAll('[data-modal-trigger]').forEach(card => {
-      card.addEventListener('click', () => openProjectModal(card.dataset.modalTrigger));
-    });
-
-    Array.from(projectsGrid.children).forEach((child, i) => {
-      child.style.transitionDelay = `${(i % 8) * 0.07}s`;
-    });
-
-    projectsGrid.querySelectorAll('.reveal-up').forEach(el => revealObserver.observe(el));
-  }
-
-  renderProjects();
-
-  /* ---------------- Project modal ---------------- */
-  const projectModal = document.getElementById('projectModal');
-  const modalContent = document.getElementById('modalContent');
-  const modalClose = document.getElementById('modalClose');
-
-  function openProjectModal(id) {
-    const project = projects.find(p => p.id === id);
-    if (!project) return;
-
-    modalContent.innerHTML = `
-      <img src="${project.image}" alt="${project.title} — event production by Jubilant Events & Productions">
-      <div class="modal-body">
-        <span class="project-category">${project.category}</span>
-        <h3 id="modalTitle">${project.title}</h3>
-        <p>${project.description}</p>
-        <div class="modal-tags">
-          ${project.tags.map(tag => `<span>${tag}</span>`).join('')}
         </div>
-      </div>
-    `;
+      `;
 
-    projectModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+      projectModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectModal() {
+      projectModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-modal-trigger="dsk-toyota"]').forEach(btn => {
+      btn.addEventListener('click', () => openProjectModal('dsk-toyota'));
+    });
+
+    modalClose.addEventListener('click', closeProjectModal);
+    projectModal.addEventListener('click', (e) => {
+      if (e.target === projectModal) closeProjectModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && projectModal.classList.contains('active')) closeProjectModal();
+    });
   }
-
-  function closeProjectModal() {
-    projectModal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('[data-modal-trigger="dsk-toyota"]').forEach(btn => {
-    btn.addEventListener('click', () => openProjectModal('dsk-toyota'));
-  });
-
-  modalClose.addEventListener('click', closeProjectModal);
-  projectModal.addEventListener('click', (e) => {
-    if (e.target === projectModal) closeProjectModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && projectModal.classList.contains('active')) closeProjectModal();
-  });
 
   /* ---------------- Toast notification ---------------- */
   const toast = document.getElementById('toast');
@@ -380,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------- Contact form validation ---------------- */
   const contactForm = document.getElementById('contactForm');
 
+  if (contactForm) {
   const validators = {
     name: (value) => {
       if (!value.trim()) return 'Please enter your name.';
@@ -467,5 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.reset();
     fieldNames.forEach(fieldName => setFieldError(fieldName, ''));
   });
+  }
 
 });

@@ -790,6 +790,22 @@ textarea:focus-visible {
   align-items: center;
 }
 
+/* ---------- Sub-page header ---------- */
+.page-header {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(140px, 20vw, 190px) 0 clamp(60px, 8vw, 90px);
+  text-align: center;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% 0%, rgba(201, 151, 79, 0.16), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 100% 100%, rgba(31, 138, 99, 0.12), transparent 60%),
+    var(--black);
+}
+
+.page-header .section-head {
+  margin-bottom: 0;
+}
+
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
