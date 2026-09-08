@@ -234,12 +234,20 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ['Institutional', 'Event Management']
     },
     {
-      id: 'godrej-air-bangalore',
-      title: 'Godrej Air — Bangalore',
-      category: 'Product Launch',
+      id: 'godrej-air-bangalore-campaign',
+      title: 'Godrej Air, Bangalore — Marketing Campaign',
+      category: 'Marketing Campaign',
       image: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?w=1000&q=80&auto=format&fit=crop',
-      description: 'Product launch production for Godrej Air in Bangalore, engineered for a high-impact brand reveal.',
-      tags: ['Product Launch', 'Production']
+      description: 'Marketing campaign production for Godrej Air in Bangalore, engineered for a high-impact brand reveal.',
+      tags: ['Marketing Campaign', 'Production']
+    },
+    {
+      id: 'godrej-air-bangalore-launch',
+      title: 'Godrej Air, Bangalore — Property Launch',
+      category: 'Property Launch',
+      image: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1000&q=80&auto=format&fit=crop',
+      description: 'Property launch event for Godrej Air in Bangalore, from concept development through to on-site execution.',
+      tags: ['Property Launch', 'Real Estate']
     },
     {
       id: 'sai-dutta-developer',
