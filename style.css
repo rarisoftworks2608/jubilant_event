@@ -75,7 +75,7 @@ button {
   --spotlight-tint: rgba(255, 255, 255, 0.08);
   --grid-line: rgba(255, 255, 255, 0.035);
 
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-script: 'Mrs Saint Delafield', cursive;
 
@@ -112,6 +112,35 @@ button {
   color: var(--white);
 }
 
+/* Light variant for sections that hold real photos (About, Projects,
+   Production). Deliberately uses literal colors instead of redeclaring
+   the shared --black/--white custom properties like .light-section does —
+   redefining those same custom-property names at a second cascade level
+   on a section that also contains large clipped photo content triggers a
+   Chromium paint bug where the image never composites (verified: the
+   image is present, correctly sized and topmost in hit-testing, but
+   never paints). Literal values sidestep that entirely. */
+.section-photo-light {
+  color: #241a10;
+}
+
+.section-photo-light .section-sub,
+.section-photo-light .stat-label,
+.section-photo-light .about-copy p,
+.section-photo-light .featured-copy p {
+  color: #5c4a36;
+}
+
+.section-photo-light .glass {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(33, 22, 9, 0.10);
+}
+
+.section-photo-light .btn-outline {
+  border-color: rgba(33, 22, 9, 0.20);
+  color: #241a10;
+}
+
 /* ---------- Base ---------- */
 body {
   background: var(--black);
@@ -125,9 +154,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
 }
 
 .container {
@@ -218,7 +247,6 @@ h1, h2, h3, h4 {
    too close in luminance, so these text/icon uses (which sit directly on
    the section background, not a white card) drop to the deeper gold-dim. */
 .light-section .section-eyebrow,
-.light-section .clients-track span:hover,
 .light-section .contact-details i,
 .light-section .contact-details a:hover {
   color: var(--gold-dim);
@@ -297,10 +325,6 @@ body.loaded {
   to { background-position: 56px 56px, 56px 56px; }
 }
 
-/* ---- Navbar hide-on-scroll ---- */
-.navbar.nav-hidden {
-  transform: translateY(-100%);
-}
 
 /* ---- Magnetic buttons ---- */
 .magnetic {
@@ -309,14 +333,12 @@ body.loaded {
 }
 
 /* ---- Card spotlight glow ---- */
-.service-card,
-.feature-card {
+.service-card {
   --mx: 50%;
   --my: 50%;
 }
 
-.service-card::after,
-.feature-card::after {
+.service-card::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -327,8 +349,7 @@ body.loaded {
   transition: opacity 0.5s var(--ease);
 }
 
-.service-card:hover::after,
-.feature-card:hover::after {
+.service-card:hover::after {
   opacity: 1;
 }
 
@@ -337,57 +358,11 @@ body.loaded {
   z-index: 1;
 }
 
-.feature-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ---- Feature card border beam ---- */
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.feature-card {
-  position: relative;
-  isolation: isolate;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: 17px;
-  padding: 1px;
-  background: conic-gradient(from var(--angle, 0deg), transparent 0%, var(--gold-light) 12%, transparent 28%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-}
-
-.feature-card:hover::before {
-  opacity: 1;
-  animation: beamRotate 2.6s linear infinite;
-}
-
-.feature-card:nth-child(even):hover::before {
-  background: conic-gradient(from var(--angle, 0deg), transparent 0%, var(--emerald-light) 12%, transparent 28%);
-}
-
-@keyframes beamRotate {
-  to { --angle: 360deg; }
-}
-
 /* ---- Image reveal wipe (panel slide-away, keeps the <img> itself unclipped
    so native lazy-loading and IntersectionObserver track it normally) ---- */
 .about-media::before,
 .inventory-card::before,
-.project-card::before,
+.project-card-media::before,
 .featured-media::before {
   content: '';
   position: absolute;
@@ -402,9 +377,28 @@ body.loaded {
 
 .about-media.visible::before,
 .inventory-card.visible::before,
-.project-card.visible::before,
+.project-card.visible .project-card-media::before,
 .featured-project.visible .featured-media::before {
   transform: scaleX(0);
+}
+
+/* ---- Image reveal zoom-settle (image starts slightly zoomed in, settles to
+   scale(1) in step with the wipe panel above, then hover scale takes over) ---- */
+.about-media img,
+.inventory-card img,
+.project-card-media img,
+.featured-media img,
+.how-we-work-media img {
+  transform: scale(1.15);
+  transition: transform 1.2s var(--ease);
+}
+
+.about-media.visible img,
+.inventory-card.visible img,
+.project-card.visible .project-card-media img,
+.featured-project.visible .featured-media img,
+.how-we-work-col.visible .how-we-work-media img {
+  transform: scale(1);
 }
 
 /* ---- About stats storytelling beam ---- */
@@ -432,7 +426,6 @@ body.loaded {
 @media (prefers-reduced-motion: reduce) {
   body { opacity: 1; transition: none; }
   .hero::after { animation: none; }
-  .feature-card:hover::before { animation: none; }
 }
 
 .text-gold {
@@ -558,6 +551,35 @@ textarea:focus-visible {
   .btn-pulse { animation: none; }
 }
 
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+  color: var(--gold);
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid var(--gold-dim);
+  transition: gap 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.btn-link i {
+  font-size: 0.82rem;
+  transition: transform 0.3s var(--ease);
+}
+
+.btn-link:hover {
+  gap: 14px;
+  color: var(--gold-light);
+  border-color: var(--gold-light);
+}
+
+.btn-link:hover i {
+  transform: translateX(3px);
+}
+
 /* ---------- Scroll progress ---------- */
 .scroll-progress {
   position: fixed;
@@ -573,24 +595,22 @@ textarea:focus-visible {
 /* ---------- Navbar ---------- */
 .navbar {
   position: fixed;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1280px, calc(100% - 16px));
+  top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
-  padding: 8px 10px 8px 22px;
-  border-radius: 100px;
-  transition: var(--transition), top 0.4s var(--ease);
-  background: rgba(20, 16, 26, 0.85);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 20px 50px -26px rgba(0, 0, 0, 0.6);
+  padding: 22px 48px;
+  transition: var(--transition), padding 0.4s var(--ease);
+  background: rgba(15, 12, 9, 0.5);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .navbar.scrolled {
-  top: 6px;
-  background: rgba(16, 13, 21, 0.94);
+  padding: 14px 48px;
+  background: rgba(13, 10, 8, 0.94);
+  border-bottom-color: var(--border);
   box-shadow: 0 20px 44px -18px rgba(0, 0, 0, 0.55);
 }
 
@@ -599,6 +619,8 @@ textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -666,7 +688,7 @@ textarea:focus-visible {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: clamp(2px, 0.4vw, 6px);
+  gap: 8px;
   margin-left: auto;
 }
 
@@ -679,17 +701,22 @@ textarea:focus-visible {
   color: var(--gray);
   padding: 9px 16px;
   border-radius: 100px;
-  transition: color 0.3s var(--ease), background 0.3s var(--ease);
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: color 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
 }
 
 .nav-link:hover {
   color: var(--white);
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
 }
 
 .nav-link.active {
   color: var(--ink);
   background: var(--gradient-gold);
+  border-color: transparent;
 }
 
 .nav-cta {
@@ -833,9 +860,10 @@ textarea:focus-visible {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
-.hero-img {
+.hero-bg-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -848,12 +876,12 @@ textarea:focus-visible {
   to { transform: scale(1); }
 }
 
-.hero-gradient {
+.hero-media-overlay {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(180deg, rgba(6,6,6,0.55) 0%, rgba(6,6,6,0.55) 30%, rgba(6,6,6,0.92) 100%),
-    linear-gradient(90deg, rgba(6,6,6,0.85) 0%, rgba(6,6,6,0.35) 60%);
+    linear-gradient(90deg, rgba(6,6,6,0.7) 0%, rgba(6,6,6,0.35) 60%);
 }
 
 .hero-content {
@@ -901,10 +929,24 @@ textarea:focus-visible {
 }
 
 .hero h1 {
-  font-size: clamp(2.4rem, 6.5vw, 5.2rem);
+  font-size: clamp(2.4rem, 7vw, 5.6rem);
   text-transform: uppercase;
   margin-bottom: 26px;
-  letter-spacing: 1px;
+  letter-spacing: -1.5px;
+}
+
+.line-mask {
+  display: block;
+  overflow: hidden;
+}
+
+.line-inner {
+  display: block;
+  transform: translateY(115%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-inner { transform: none; }
 }
 
 .hero-text {
@@ -962,6 +1004,47 @@ textarea:focus-visible {
   100% { opacity: 0; transform: translateY(10px); }
 }
 
+/* ---------- How We Work ---------- */
+.how-we-work {
+  padding: var(--section-pad) 0 calc(var(--section-pad) * 0.6);
+  background: var(--black);
+}
+
+.how-we-work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  margin-top: clamp(40px, 6vw, 64px);
+}
+
+.how-we-work-media {
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.how-we-work-media img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+}
+
+.how-we-work-col:hover .how-we-work-media img {
+  transform: scale(1.05);
+}
+
+.how-we-work-col h3 {
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  margin: 10px 0 14px;
+}
+
+.how-we-work-col p {
+  color: var(--gray);
+  margin-bottom: 22px;
+  max-width: 46ch;
+}
+
 /* ---------- About ---------- */
 .about {
   padding: var(--section-pad) 0;
@@ -971,6 +1054,13 @@ textarea:focus-visible {
     var(--charcoal);
   position: relative;
   overflow: hidden;
+}
+
+.about.section-photo-light {
+  background:
+    radial-gradient(ellipse 800px 600px at 8% 0%, rgba(201, 151, 79, 0.22), transparent 65%),
+    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(31, 138, 99, 0.20), transparent 65%),
+    #f3ead9;
 }
 
 .about-grid {
@@ -1008,6 +1098,10 @@ textarea:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  background: rgba(8, 6, 4, 0.82);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .badge-num {
@@ -1071,15 +1165,17 @@ textarea:focus-visible {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .service-card {
-  background: var(--charcoal-light);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 34px 26px;
-  transition: var(--transition);
+  background: transparent;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 34px 28px;
+  transition: background 0.4s var(--ease);
   position: relative;
   overflow: hidden;
 }
@@ -1094,39 +1190,15 @@ textarea:focus-visible {
 }
 
 .service-card i {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   color: var(--gold);
   margin-bottom: 20px;
   display: inline-block;
   transition: transform 0.4s var(--ease);
-  animation: iconGlowPulse 4s ease-in-out infinite;
-}
-
-.service-card:nth-child(4n+2) i { animation-delay: 0.6s; }
-.service-card:nth-child(4n+3) i { animation-delay: 1.2s; }
-.service-card:nth-child(4n+4) i { animation-delay: 1.8s; }
-
-@keyframes iconGlowPulse {
-  0%, 100% { filter: drop-shadow(0 0 0 transparent); }
-  50% { filter: drop-shadow(0 0 9px currentColor); }
-}
-
-@keyframes iconBreathe {
-  0%, 100% { box-shadow: 0 0 0 0 var(--gold-glow); }
-  50% { box-shadow: 0 0 24px 8px var(--gold-glow); }
-}
-
-.feature-card:nth-child(even) .feature-icon {
-  animation: iconBreatheEmerald 3.6s ease-in-out infinite;
-}
-
-@keyframes iconBreatheEmerald {
-  0%, 100% { box-shadow: 0 0 0 0 var(--emerald-glow); }
-  50% { box-shadow: 0 0 24px 8px var(--emerald-glow); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .service-card i, .feature-icon { animation: none; }
+  .service-card i { animation: none; }
 }
 
 .service-card h3 {
@@ -1141,9 +1213,7 @@ textarea:focus-visible {
 }
 
 .service-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--gold-dim);
-  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  background: rgba(201, 151, 79, 0.05);
 }
 
 .service-card:hover::before {
@@ -1151,19 +1221,7 @@ textarea:focus-visible {
 }
 
 .service-card:hover i {
-  transform: scale(1.15) rotate(-6deg);
-}
-
-.service-card:nth-child(even) i {
-  color: var(--emerald-light);
-}
-
-.service-card:nth-child(even):hover {
-  border-color: var(--emerald-dim);
-}
-
-.service-card:nth-child(even)::before {
-  background: radial-gradient(circle at 30% 0%, var(--emerald-glow), transparent 60%);
+  transform: scale(1.1);
 }
 
 /* ---------- Why choose us ---------- */
@@ -1180,46 +1238,38 @@ textarea:focus-visible {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
   margin-bottom: 56px;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
 }
 
 .feature-card {
-  text-align: center;
-  padding: 40px 24px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  transition: var(--transition);
+  text-align: left;
+  padding: 36px 30px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.4s var(--ease);
 }
 
 .feature-card:hover {
-  border-color: var(--gold-dim);
-  transform: translateY(-6px);
-  background: rgba(201, 151, 79, 0.04);
+  background: rgba(201, 151, 79, 0.05);
 }
 
-.feature-card:nth-child(even):hover {
-  border-color: var(--emerald-dim);
-  background: rgba(31, 138, 99, 0.05);
+.feature-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: var(--gold-dim);
+  margin-bottom: 28px;
 }
 
 .feature-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--gradient-gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 22px;
-  animation: iconBreathe 3.6s ease-in-out infinite;
-  font-size: 1.6rem;
-  color: var(--ink);
-}
-
-.feature-card:nth-child(even) .feature-icon {
-  background: var(--gradient-emerald);
-  color: var(--white);
+  display: block;
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin-bottom: 20px;
 }
 
 .feature-card h3 {
@@ -1263,6 +1313,13 @@ textarea:focus-visible {
     var(--black);
   position: relative;
   overflow: hidden;
+}
+
+.production.section-photo-light {
+  background:
+    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(31, 138, 99, 0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 0% 100%, rgba(201, 151, 79, 0.08), transparent 60%),
+    #f8f1e3;
 }
 
 .inventory-grid {
@@ -1343,6 +1400,16 @@ textarea:focus-visible {
   overflow: hidden;
 }
 
+.projects.section-photo-light {
+  background:
+    radial-gradient(ellipse 850px 600px at 100% 15%, rgba(201, 151, 79, 0.22), transparent 65%),
+    radial-gradient(ellipse 800px 550px at 0% 100%, rgba(31, 138, 99, 0.20), transparent 65%),
+    #f3ead9;
+}
+
+.projects .container {
+}
+
 .featured-project {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -1402,51 +1469,66 @@ textarea:focus-visible {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
 }
 
 .project-card {
   position: relative;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  aspect-ratio: 4 / 3.2;
   cursor: pointer;
+  background: var(--charcoal);
+  border: 1px solid var(--border);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), border-color 0.5s var(--ease);
 }
 
-.project-card img {
+.project-card-media {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+}
+
+.project-card-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s var(--ease);
+  transition: transform 0.9s var(--ease);
 }
 
-.project-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(6,6,6,0.1) 0%, rgba(6,6,6,0.95) 100%);
+.project-card-body {
+  padding: 24px 26px 28px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 24px;
-  opacity: 0.92;
-  transition: var(--transition);
 }
 
 .project-category {
+  display: inline-block;
+  align-self: flex-start;
   color: var(--gold);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.68rem;
+  font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  padding: 5px 13px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
 }
 
 .project-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  font-family: var(--font-body);
-  margin-bottom: 10px;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+  color: var(--white);
+}
+
+.project-client {
+  font-size: 0.85rem;
+  color: var(--gray-dim);
+  margin-bottom: 16px;
 }
 
 .project-view {
@@ -1454,30 +1536,29 @@ textarea:focus-visible {
   align-items: center;
   gap: 8px;
   font-size: 0.78rem;
+  font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--white);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: var(--transition);
-}
-
-.project-view i {
   color: var(--gold);
 }
 
-.project-card:hover img {
-  transform: scale(1.12);
+.project-view i {
+  font-size: 0.7rem;
+  transition: transform 0.4s var(--ease);
 }
 
-.project-card:hover .project-overlay {
-  opacity: 1;
-  background: linear-gradient(180deg, rgba(6,6,6,0.35) 0%, rgba(6,6,6,0.97) 100%);
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-dim);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
 }
 
-.project-card:hover .project-view {
-  opacity: 1;
-  transform: translateY(0);
+.project-card:hover .project-card-media img {
+  transform: scale(1.08);
+}
+
+.project-card:hover .project-view i {
+  transform: translateX(4px);
 }
 
 /* ---------- Modal ---------- */
@@ -1558,6 +1639,10 @@ textarea:focus-visible {
 
 .modal-body h3 {
   font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.modal-body .project-client {
   margin-bottom: 16px;
 }
 
@@ -1606,19 +1691,36 @@ textarea:focus-visible {
   gap: 60px;
   width: max-content;
   animation: marquee 32s linear infinite;
+  cursor: pointer;
+}
+
+.clients-track.paused {
+  animation-play-state: paused;
 }
 
 .clients-track span {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--gray-dim);
-  white-space: nowrap;
-  transition: color 0.3s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 160px;
+  height: 84px;
+  padding: 14px 20px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.clients-track span img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .clients-track span:hover {
-  color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 @keyframes marquee {
@@ -2046,6 +2148,9 @@ textarea:focus-visible {
 }
 
 @media (max-width: 992px) {
+  .navbar { padding: 18px 24px; }
+  .navbar.scrolled { padding: 14px 24px; }
+
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .hamburger { display: flex; }
@@ -2074,6 +2179,8 @@ textarea:focus-visible {
   .about-grid,
   .contact-grid { grid-template-columns: 1fr; }
   .about-media img { height: 400px; }
+
+  .how-we-work-grid { grid-template-columns: 1fr; gap: 48px; }
 
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
