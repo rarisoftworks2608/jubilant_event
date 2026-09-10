@@ -44,15 +44,15 @@ button {
 
 /* ---------- Variables ---------- */
 :root {
-  --black: #1e150c;
-  --charcoal: #281c10;
-  --charcoal-light: #332415;
-  --charcoal-lighter: #402c19;
-  --border: rgba(255, 255, 255, 0.09);
-  --border-light: rgba(255, 255, 255, 0.16);
+  --black: #0a0a0a;
+  --charcoal: #131313;
+  --charcoal-light: #1c1c1c;
+  --charcoal-lighter: #262626;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-light: rgba(255, 255, 255, 0.18);
 
   --white: #f6f5f2;
-  --gray: #a8a6a1;
+  --gray: #a3a3a1;
   --gray-dim: #706e6a;
 
   /* Fixed dark text for use on gold/light surfaces (buttons, badges) —
@@ -64,10 +64,13 @@ button {
   --gold-dim: #8f6530;
   --gold-glow: rgba(201, 151, 79, 0.35);
 
-  --emerald: #1f8a63;
-  --emerald-light: #4fd6a0;
-  --emerald-dim: #0f4a34;
-  --emerald-glow: rgba(31, 138, 99, 0.4);
+  /* "Emerald" is now a neutral silver-gray, not green — kept as a second
+     token (rather than deleted) so every existing decorative use (glows,
+     sparkles, gradient lines) reads as monochrome instead of a second hue. */
+  --emerald: #8c8880;
+  --emerald-light: #d4d0c8;
+  --emerald-dim: #3a3733;
+  --emerald-glow: rgba(200, 196, 188, 0.3);
 
   --gradient-gold: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-dim));
   --gradient-emerald: linear-gradient(135deg, var(--emerald-light), var(--emerald) 55%, var(--emerald-dim));
@@ -201,12 +204,12 @@ h1, h2, h3, h4 {
 }
 
 .glow-emerald {
-  background: radial-gradient(circle, rgba(31, 138, 99, 0.52), transparent 70%);
+  background: radial-gradient(circle, rgba(140, 136, 128, 0.52), transparent 70%);
   animation-duration: 14s;
 }
 
 .glow-emerald-soft {
-  background: radial-gradient(circle, rgba(31, 138, 99, 0.32), transparent 70%);
+  background: radial-gradient(circle, rgba(140, 136, 128, 0.32), transparent 70%);
   animation-duration: 18s;
   animation-delay: -6s;
 }
@@ -248,7 +251,8 @@ h1, h2, h3, h4 {
    the section background, not a white card) drop to the deeper gold-dim. */
 .light-section .section-eyebrow,
 .light-section .contact-details i,
-.light-section .contact-details a:hover {
+.light-section .contact-details a:hover,
+.section-photo-light .section-eyebrow {
   color: var(--gold-dim);
 }
 
@@ -534,7 +538,7 @@ textarea:focus-visible {
 .btn-outline:hover {
   border-color: var(--emerald-light);
   color: var(--emerald-light);
-  background: rgba(31, 138, 99, 0.1);
+  background: rgba(140, 136, 128, 0.1);
   transform: translateY(-3px);
 }
 
@@ -601,17 +605,18 @@ textarea:focus-visible {
   z-index: 1000;
   padding: 22px 48px;
   transition: var(--transition), padding 0.4s var(--ease);
-  background: rgba(15, 12, 9, 0.5);
+  background: rgba(28, 22, 14, 0.88);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid var(--gold-dim);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
 }
 
 .navbar.scrolled {
   padding: 14px 48px;
-  background: rgba(13, 10, 8, 0.94);
-  border-bottom-color: var(--border);
-  box-shadow: 0 20px 44px -18px rgba(0, 0, 0, 0.55);
+  background: rgba(20, 15, 9, 0.97);
+  border-bottom-color: var(--gold-dim);
+  box-shadow: 0 20px 44px -18px rgba(0, 0, 0, 0.7);
 }
 
 .nav-container {
@@ -632,53 +637,47 @@ textarea:focus-visible {
 .logo-badge {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
-  background: var(--gradient-gold);
-  padding: 7px 16px 6px;
-  border-radius: 100px;
+  align-items: center;
+  text-align: center;
   line-height: 1;
-  box-shadow: 0 8px 22px -10px var(--gold-glow);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  padding: 10px 22px 8px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 10px;
+  background: rgba(201, 151, 79, 0.05);
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
 }
 
 .logo:hover .logo-badge {
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 12px 30px -8px var(--gold-glow);
+  border-color: var(--gold);
+  background: rgba(201, 151, 79, 0.09);
 }
 
 .logo-script {
   font-family: var(--font-script);
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: 400;
-  color: var(--ink);
+  color: var(--white);
   line-height: 1;
 }
 
 .logo-sub {
   font-family: var(--font-body);
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 2.5px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--ink);
-  opacity: 0.82;
+  color: var(--gold-light);
   margin-top: 2px;
 }
 
 .logo-amp {
   display: inline-block;
-  margin: 0 4px;
-  font-style: italic;
-  opacity: 0.7;
-}
-
-.logo-lg .logo-badge {
-  padding: 12px 24px 10px;
-  border-radius: 6px;
+  opacity: 0.85;
 }
 
 .logo-lg .logo-script {
-  font-size: 2.8rem;
+  font-size: 3.2rem;
 }
 
 .logo-lg .logo-sub {
@@ -825,7 +824,7 @@ textarea:focus-visible {
   text-align: center;
   background:
     radial-gradient(ellipse 900px 500px at 15% 0%, rgba(201, 151, 79, 0.16), transparent 60%),
-    radial-gradient(ellipse 800px 500px at 100% 100%, rgba(31, 138, 99, 0.12), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 100% 100%, rgba(140, 136, 128, 0.12), transparent 60%),
     var(--black);
 }
 
@@ -844,7 +843,7 @@ textarea:focus-visible {
   padding: 140px 24px 90px;
   background:
     radial-gradient(ellipse 900px 600px at 12% 10%, rgba(201, 151, 79, 0.14), transparent 60%),
-    radial-gradient(ellipse 800px 700px at 90% 85%, rgba(31, 138, 99, 0.10), transparent 60%),
+    radial-gradient(ellipse 800px 700px at 90% 85%, rgba(140, 136, 128, 0.10), transparent 60%),
     var(--black);
 }
 
@@ -898,14 +897,15 @@ textarea:focus-visible {
   position: relative;
   overflow: hidden;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--gold-dim);
+  color: var(--gold-light);
   margin-bottom: 24px;
   padding: 8px 20px;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 100px;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .eyebrow::after {
@@ -1008,6 +1008,46 @@ textarea:focus-visible {
 .how-we-work {
   padding: var(--section-pad) 0 calc(var(--section-pad) * 0.6);
   background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.how-we-work::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background: linear-gradient(120deg, rgba(201, 151, 79, 0.16), rgba(200, 196, 188, 0.12) 35%, rgba(201, 151, 79, 0.14) 65%, rgba(200, 196, 188, 0.1) 100%);
+  background-size: 300% 300%;
+  filter: blur(60px);
+  animation: auroraShift 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.how-we-work .container {
+  position: relative;
+  z-index: 1;
+}
+
+.how-we-work.section-photo-light {
+  background: #f8f1e3;
+}
+
+.how-we-work.section-photo-light::before {
+  opacity: 0.6;
+}
+
+.how-we-work.section-photo-light .how-we-work-col p {
+  color: #5c4a36;
+}
+
+@keyframes auroraShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how-we-work::before { animation: none; }
 }
 
 .how-we-work-grid {
@@ -1050,7 +1090,7 @@ textarea:focus-visible {
   padding: var(--section-pad) 0;
   background:
     radial-gradient(ellipse 800px 600px at 8% 0%, rgba(201, 151, 79, 0.22), transparent 65%),
-    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(31, 138, 99, 0.20), transparent 65%),
+    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(140, 136, 128, 0.20), transparent 65%),
     var(--charcoal);
   position: relative;
   overflow: hidden;
@@ -1059,7 +1099,7 @@ textarea:focus-visible {
 .about.section-photo-light {
   background:
     radial-gradient(ellipse 800px 600px at 8% 0%, rgba(201, 151, 79, 0.22), transparent 65%),
-    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(31, 138, 99, 0.20), transparent 65%),
+    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(140, 136, 128, 0.20), transparent 65%),
     #f3ead9;
 }
 
@@ -1155,8 +1195,8 @@ textarea:focus-visible {
 .services {
   padding: var(--section-pad) 0;
   background:
-    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(31, 138, 99, 0.07), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 0% 100%, rgba(201, 151, 79, 0.08), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(200, 196, 188, 0.16), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 0% 100%, rgba(201, 151, 79, 0.20), transparent 60%),
     var(--black);
   position: relative;
   overflow: hidden;
@@ -1229,7 +1269,7 @@ textarea:focus-visible {
   padding: var(--section-pad) 0;
   background:
     radial-gradient(ellipse 800px 600px at 0% 20%, rgba(201, 151, 79, 0.24), transparent 65%),
-    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(31, 138, 99, 0.22), transparent 65%),
+    radial-gradient(ellipse 800px 600px at 100% 100%, rgba(140, 136, 128, 0.22), transparent 65%),
     var(--charcoal);
   position: relative;
   overflow: hidden;
@@ -1308,8 +1348,8 @@ textarea:focus-visible {
 .production {
   padding: var(--section-pad) 0;
   background:
-    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(31, 138, 99, 0.08), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 0% 100%, rgba(201, 151, 79, 0.08), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(200, 196, 188, 0.18), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 0% 100%, rgba(201, 151, 79, 0.18), transparent 60%),
     var(--black);
   position: relative;
   overflow: hidden;
@@ -1317,7 +1357,7 @@ textarea:focus-visible {
 
 .production.section-photo-light {
   background:
-    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(31, 138, 99, 0.08), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 100% 0%, rgba(140, 136, 128, 0.08), transparent 60%),
     radial-gradient(ellipse 700px 500px at 0% 100%, rgba(201, 151, 79, 0.08), transparent 60%),
     #f8f1e3;
 }
@@ -1394,7 +1434,7 @@ textarea:focus-visible {
   padding: var(--section-pad) 0;
   background:
     radial-gradient(ellipse 850px 600px at 100% 15%, rgba(201, 151, 79, 0.22), transparent 65%),
-    radial-gradient(ellipse 800px 550px at 0% 100%, rgba(31, 138, 99, 0.20), transparent 65%),
+    radial-gradient(ellipse 800px 550px at 0% 100%, rgba(140, 136, 128, 0.20), transparent 65%),
     var(--charcoal);
   position: relative;
   overflow: hidden;
@@ -1403,7 +1443,7 @@ textarea:focus-visible {
 .projects.section-photo-light {
   background:
     radial-gradient(ellipse 850px 600px at 100% 15%, rgba(201, 151, 79, 0.22), transparent 65%),
-    radial-gradient(ellipse 800px 550px at 0% 100%, rgba(31, 138, 99, 0.20), transparent 65%),
+    radial-gradient(ellipse 800px 550px at 0% 100%, rgba(140, 136, 128, 0.20), transparent 65%),
     #f3ead9;
 }
 
@@ -1670,7 +1710,8 @@ textarea:focus-visible {
 .clients {
   padding: var(--section-pad) 0;
   background:
-    radial-gradient(ellipse 900px 400px at 50% 0%, rgba(201, 151, 79, 0.07), transparent 65%),
+    radial-gradient(ellipse 900px 500px at 15% 0%, rgba(201, 151, 79, 0.18), transparent 65%),
+    radial-gradient(ellipse 900px 500px at 85% 100%, rgba(200, 196, 188, 0.14), transparent 65%),
     var(--black);
   position: relative;
   overflow: hidden;
@@ -1779,8 +1820,8 @@ textarea:focus-visible {
 .contact {
   padding: var(--section-pad) 0;
   background:
-    radial-gradient(ellipse 750px 550px at 0% 0%, rgba(31, 138, 99, 0.07), transparent 60%),
-    radial-gradient(ellipse 750px 550px at 100% 100%, rgba(201, 151, 79, 0.09), transparent 60%),
+    radial-gradient(ellipse 750px 550px at 0% 0%, rgba(200, 196, 188, 0.16), transparent 60%),
+    radial-gradient(ellipse 750px 550px at 100% 100%, rgba(201, 151, 79, 0.20), transparent 60%),
     var(--charcoal);
   position: relative;
   overflow: hidden;
@@ -1954,7 +1995,7 @@ textarea:focus-visible {
 .footer {
   background:
     radial-gradient(ellipse 800px 500px at 15% 0%, rgba(201, 151, 79, 0.20), transparent 65%),
-    radial-gradient(ellipse 800px 500px at 85% 0%, rgba(31, 138, 99, 0.18), transparent 65%),
+    radial-gradient(ellipse 800px 500px at 85% 0%, rgba(140, 136, 128, 0.18), transparent 65%),
     var(--black);
   border-top: 1px solid var(--border);
   padding: 70px 0 0;
@@ -2207,8 +2248,7 @@ textarea:focus-visible {
   .features-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 34px; }
-  .logo-badge { padding: 6px 12px 5px; }
-  .logo-script { font-size: 1.6rem; }
+  .logo-script { font-size: 1.7rem; }
   .logo-sub { display: none; }
   .toast { left: 16px; right: 16px; max-width: none; }
   .modal-content img { height: 220px; }
