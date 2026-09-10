@@ -251,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'dsk-toyota',
       title: "DSK Toyota — Hadapsar, Pune",
+      client: 'DSK Toyota',
       category: 'Flagship Project',
       image: 'https://images.unsplash.com/photo-1576514129883-2f1d47a65da6?w=1000&q=80&auto=format&fit=crop',
       description: "Stage constructed at DSK Toyota Hadapsar, Pune in 12 levels to accommodate approximately 500 people — a landmark production showcasing our in-house engineering and fabrication capability at scale.",
@@ -259,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'intrepid-control-systems',
       title: 'Intrepid Control Systems',
+      client: 'Intrepid Control Systems',
       category: 'Corporate Event',
       image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&q=80&auto=format&fit=crop',
       description: 'End-to-end management and production for a corporate event held for Intrepid Control Systems, delivered with precision staging and seamless on-ground execution.',
@@ -267,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'renault-pune',
       title: 'Renault Pune',
+      client: 'Renault',
       category: 'Automotive Launch',
       image: 'https://images.unsplash.com/photo-1740276789708-a14e0a735dd9?w=1000&q=80&auto=format&fit=crop',
       description: 'Production support and event execution for Renault Pune, blending sleek staging with brand-focused design.',
@@ -275,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'pps-motor',
       title: 'PPS Motor',
+      client: 'PPS Motor',
       category: 'Automotive Event',
       image: 'https://images.unsplash.com/photo-1681758043649-7aab7d5a2592?w=1000&q=80&auto=format&fit=crop',
       description: 'Complete event management for PPS Motor, from concept development to on-site production.',
@@ -283,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'nuhii',
       title: 'National Union Of Hospitality Industry Of India',
+      client: 'NUHII',
       category: 'Conference',
       image: 'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?w=1000&q=80&auto=format&fit=crop',
       description: 'Large-scale conference production for the National Union Of Hospitality Industry Of India, managing logistics, staging and the full delegate experience.',
@@ -291,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'siddharth-auto-engineers',
       title: 'Siddharth Auto Engineers',
+      client: 'Siddharth Auto Engineers',
       category: 'Corporate Event',
       image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1000&q=80&auto=format&fit=crop',
       description: 'Corporate event production for Siddharth Auto Engineers, delivered with a strong focus on brand presentation and guest experience.',
@@ -299,6 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'dilip-oak-academy',
       title: "Dilip Oak's Academy",
+      client: "Dilip Oak's Academy",
       category: 'Institutional Event',
       image: 'https://images.unsplash.com/photo-1778877035014-98c41b7c1460?w=1000&q=80&auto=format&fit=crop',
       description: "Event management and production for Dilip Oak's Academy, supporting a milestone institutional event from planning through to execution.",
@@ -307,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'godrej-air-bangalore-campaign',
       title: 'Godrej Air, Bangalore — Marketing Campaign',
+      client: 'Godrej Air',
       category: 'Marketing Campaign',
       image: 'https://images.unsplash.com/photo-1560523160-754a9e25c68f?w=1000&q=80&auto=format&fit=crop',
       description: 'Marketing campaign production for Godrej Air in Bangalore, engineered for a high-impact brand reveal.',
@@ -315,6 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'godrej-air-bangalore-launch',
       title: 'Godrej Air, Bangalore — Property Launch',
+      client: 'Godrej Air',
       category: 'Property Launch',
       image: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1000&q=80&auto=format&fit=crop',
       description: 'Property launch event for Godrej Air in Bangalore, from concept development through to on-site execution.',
@@ -323,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'sai-dutta-developer',
       title: 'Sai Dutta Developer — Amravati',
+      client: 'Sai Dutta Developer',
       category: 'Real Estate Launch',
       image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1000&q=80&auto=format&fit=crop',
       description: 'Launch event management for Sai Dutta Developer in Amravati, combining stage production with immersive brand storytelling.',
@@ -331,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'chintamani-developers',
       title: 'Chintamani Developers',
+      client: 'Chintamani Developers',
       category: 'Real Estate Event',
       image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1000&q=80&auto=format&fit=crop',
       description: 'End-to-end production for a Chintamani Developers event, from structural builds to final execution.',
@@ -339,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'gala-nights',
       title: 'Gala Nights / Opening Events',
+      client: null,
       category: 'Social & Opening Events',
       image: 'https://images.unsplash.com/photo-1751071479001-480c55fb1d0d?w=1000&q=80&auto=format&fit=crop',
       description: 'Curated gala nights and grand opening events, designed to leave a lasting impression on every guest.',
@@ -347,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'exhibition-stall-structure',
       title: 'Exhibition / Stall / Structure / Customization',
+      client: null,
       category: 'Exhibition',
       image: 'https://images.unsplash.com/photo-1752155222944-675c2c3bfafd?w=1000&q=80&auto=format&fit=crop',
       description: 'Custom-fabricated exhibition stalls and structures, tailored to brand identity and spatial requirements.',
@@ -362,11 +375,14 @@ document.addEventListener('DOMContentLoaded', () => {
         .filter(p => p.id !== 'dsk-toyota')
         .map((p, index) => `
           <article class="project-card reveal-up delay-${(index % 3) + 1}" data-modal-trigger="${p.id}">
-            <img src="${p.image}" alt="${p.title} — event production by Jubilant Events & Productions" loading="lazy">
-            <div class="project-overlay">
+            <div class="project-card-media">
+              <img src="${p.image}" alt="${p.title} — event production by Jubilant Events & Productions" loading="lazy">
+            </div>
+            <div class="project-card-body">
               <span class="project-category">${p.category}</span>
               <h3>${p.title}</h3>
-              <span class="project-view"><i class="fa-solid fa-arrows-up-down-left-right"></i> View Project</span>
+              ${p.client && p.client !== p.title ? `<p class="project-client">${p.client}</p>` : ''}
+              <span class="project-view">View Project <i class="fa-solid fa-arrow-right"></i></span>
             </div>
           </article>
         `).join('');
@@ -403,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="modal-body">
           <span class="project-category">${project.category}</span>
           <h3 id="modalTitle">${project.title}</h3>
+          ${project.client && project.client !== project.title ? `<p class="project-client">${project.client}</p>` : ''}
           <p>${project.description}</p>
           <div class="modal-tags">
             ${project.tags.map(tag => `<span>${tag}</span>`).join('')}
