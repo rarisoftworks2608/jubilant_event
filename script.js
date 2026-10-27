@@ -137,11 +137,8 @@
     });
   }
 
-  /* ---------- cursor + magnetic buttons ---------- */
-  const dot = $('.curdot');
-  if (fine && !reduce && dot) {
-    root.classList.add('has-cur');
-    addEventListener('pointermove', (e) => { dot.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)'; });
+  /* ---------- magnetic buttons ---------- */
+  if (fine && !reduce) {
     $$('.btn').forEach((b) => {
       b.addEventListener('pointermove', (e) => {
         const r = b.getBoundingClientRect();
